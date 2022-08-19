@@ -71,8 +71,10 @@ with open(work_csv, 'r') as csvfile:
         
 
 
-print(total_month_count)
-print(net_total)
-print(mean(monthly_change))
-print(greatest_increase_month + str(greatest_increase_value))
-print(greatest_decrease_month + str(greatest_decrease_value))
+print("Financial Analysis")
+print("----------------------------")
+print(f"Total Months: {str(total_month_count)}")
+print(f"Total: ${str(net_total)}")
+print(f"Average Change: ${str(mean(monthly_change))}")
+print(f"Greatest Increase in Profits: {greatest_increase_month} (${str(greatest_increase_value)})")
+print(f"Greatest Decrease in Profits: {greatest_decrease_month} (${str(greatest_decrease_value)})")
