@@ -1,5 +1,4 @@
 from contextlib import nullcontext
-from multiprocessing import current_process
 import os
 import csv
 from statistics import mean
@@ -11,6 +10,9 @@ os.chdir(os.path.dirname(__file__))
 # Path to collect csv from the Resources folder
 work_csv = os.path.join("Resources", "budget_data.csv")
 
+# Path to collect/create txt from/to the analysis folder
+work_txt = os.path.join("analysis", "results.txt")
+
         #-------Setup variables---------------
 
 # Variable to keep track of entire months P/L
@@ -20,6 +22,7 @@ net_total = 0
 total_month_count = 0
 
 # Variable to keep track of the previous months P/L
+# to start as a null value in order to skip the first months calculation
 previous_period = nullcontext
 
 # Empty variable to capture current monthly changes in P/L
@@ -28,11 +31,11 @@ current_monthly_change = 0
 # Empty list to store monthly change totals
 monthly_change = []
 
-# Variable to hold greatest increase in profits (Month and $ figure)
+# Variables to hold greatest increase in profits (Month and $ figure)
 greatest_increase_value = 0
 greatest_increase_month = ''
 
-# Variable to hold greatest decrease in profits (Month and $ figure)
+# Variables to hold greatest decrease in profits (Month and $ figure)
 greatest_decrease_value = 0
 greatest_decrease_month = ''
 
@@ -49,15 +52,18 @@ with open(work_csv, 'r') as csvfile:
     # Loop through the data
     for row in reader:
         
-        # Adds monthly P/L to month total counter
+        # Adds each months P/L to the running net total
         net_total += int(row[1])
 
         # counts each row to give us total qty of rows/months
         total_month_count += 1
 
-        #
+        # Checks if the previous month has a value
+        # If true calculates the difference between current month value and the previous months value
         if previous_period is not nullcontext:
+            # Adds to the monthly change list
             monthly_change.append(int(row[1]) - previous_period)
+            # Adds to the current months change value
             current_monthly_change = (int(row[1]) - previous_period)
         
         # Sets current month value as previous month ***to be used in the next cycle of the loop***
@@ -77,6 +83,26 @@ with open(work_csv, 'r') as csvfile:
 
 #calculate the average monthly change in P/L
 average_monthly_change = mean(monthly_change)
+
+ #--------------Displaying summary analytics------------
+# Read in the txt file
+with open(work_txt, "w") as txtfile:
+
+    # Write analysis summary to the txt file
+    txtfile.write("Financial Analysis")
+    txtfile.write('\n')
+    txtfile.write("----------------------------")
+    txtfile.write('\n')
+    txtfile.write(f"Total Months: {str(total_month_count)}")
+    txtfile.write('\n')
+    txtfile.write(f"Total: ${str(net_total)}")
+    txtfile.write('\n')
+    txtfile.write(f"Average Change: ${str(round(average_monthly_change, 2))}")
+    txtfile.write('\n')
+    txtfile.write(f"Greatest Increase in Profits: {greatest_increase_month} (${str(greatest_increase_value)})")
+    txtfile.write('\n')
+    txtfile.write(f"Greatest Decrease in Profits: {greatest_decrease_month} (${str(greatest_decrease_value)})")
+
 
 # Print out summary data
 print("Financial Analysis")
