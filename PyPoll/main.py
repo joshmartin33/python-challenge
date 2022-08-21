@@ -69,20 +69,36 @@ with open(work_txt, "w") as txtfile:
     txtfile.write('\n')
     txtfile.write("-------------------------")
     txtfile.write('\n')
+
+    # Output total number of votes
     txtfile.write(f"Total Votes: {str(total_votes)}")
     txtfile.write('\n')
     txtfile.write("-------------------------")
     txtfile.write('\n')
+
+    # For loop to output each candidate name, vote % and vote count
     for vote_index in range(len(list_candidates)):
+
+        # Grab candidate name from list of candidates
         candidate_name = str(list_candidates[vote_index])
+
+        # Grab vote count for candidate from list of candidate votes
         vote_count = int(candidate_vote[vote_index])
+
+        # Calculate vote percentage
         vote_percentage = (vote_count / total_votes) * 100
+
+        # Round the percentage to 3 decimals
         rounded_percentage = round(vote_percentage, 3)
 
+        # Output candidate name, vote percentage and vote count
         txtfile.write(candidate_name + ": " + str(rounded_percentage) + "% (" + str(vote_count) + ")")
         txtfile.write('\n')
+
     txtfile.write("-------------------------")
     txtfile.write('\n')
+
+    # Output the winners name
     txtfile.write("Winner: " + str(winnner))
     txtfile.write('\n')
     txtfile.write("-------------------------")
@@ -91,15 +107,31 @@ with open(work_txt, "w") as txtfile:
 # Print out summary data
 print("Election Results")
 print("-------------------------")
+
+# Output total number of votes
 print(f"Total Votes: {str(total_votes)}")
 print("-------------------------")
+
+# For loop to output each candidate name, vote % and vote count
 for vote_index in range(len(list_candidates)):
+
+    # Grab candidate name from list of candidates
     candidate_name = str(list_candidates[vote_index])
+
+    # Grab vote count for candidate from list of candidate votes
     vote_count = int(candidate_vote[vote_index])
+
+    # Calculate vote percentage
     vote_percentage = (vote_count / total_votes) * 100
+
+    # Round the percentage to 3 decimals
     rounded_percentage = round(vote_percentage, 3)
 
+    # Output candidate name, vote percentage and vote count
     print(candidate_name + ": " + str(rounded_percentage) + "% (" + str(vote_count) + ")")
+
 print("-------------------------")
+
+# Output the winners name
 print("Winner: " + str(winnner))
 print("-------------------------")
